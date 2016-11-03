@@ -14,9 +14,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    // Read URL opened from the attachment of email App
+    func application(_ app: UIApplication, openURL url: URL, options: [String : AnyObject]) -> Bool {
+        
+        Manager.messageText = url.absoluteString
+        
+        return true
+    }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+
         return true
     }
 
@@ -30,12 +38,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
+    
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        
+        
+
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        
+        //Determine if file has been correctly detected, if yes, proccess the file
+        let mainVC = self.window?.rootViewController as! ViewController
+        
+        if Manager.messageText == "" {
+
+            mainVC.CSVFileLoadingStatus.text = "No CSV File Detected"
+            
+        } else {
+            
+            mainVC.CSVFileLoadingStatus.text = "CSV File Detected!"
+            mainVC.ReadandProccessImportedFile()
+            
+        }
+        
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
